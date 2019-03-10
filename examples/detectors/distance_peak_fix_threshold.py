@@ -1,6 +1,7 @@
 import sys
 import numpy as np
 import pyqtgraph as pg
+from acconeer_utils.clients.json.client import JSONClient
 
 from acconeer_utils.clients.reg.client import RegClient
 from acconeer_utils.clients import configs
@@ -13,8 +14,7 @@ def main():
     example_utils.config_logging(args)
 
     if args.socket_addr:
-        print("Using detectors is only supported with the XM112 module")
-        sys.exit()
+        client = JSONClient(args.socket_addr)
     else:
         port = args.serial_port or example_utils.autodetect_serial_port()
         client = RegClient(port)

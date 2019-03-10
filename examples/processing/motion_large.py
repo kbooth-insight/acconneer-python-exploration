@@ -64,9 +64,9 @@ class PresenceDetectionProcessor:
     def __init__(self, config):
         self.Ns = 10  # Number of sweeps per burst
         self.fb = config.sweep_rate//self.Ns
-        self.t_fast = 0.2  # seconds
-        self.t_slow = 2  # seconds
-        self.t_move = 1  # seconds
+        self.t_fast = 0.05  # seconds
+        self.t_slow = 1  # seconds
+        self.t_move = .05  # seconds
         self.a_fast = exp(-2 / (self.fb*self.t_fast))
         self.a_slow = exp(-2 / (self.fb*self.t_slow))
         self.a_move = exp(-2 / (self.fb*self.t_move))

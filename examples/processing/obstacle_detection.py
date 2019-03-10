@@ -12,9 +12,10 @@ from acconeer_utils.pg_process import PGProcess, PGProccessDiedException
 
 
 fft_sweep_len = 17
-rolling_sweeps = 4
-threshold = 0.05        # Ignore data below threshold in fft window
-max_speed = 8.00        # Max speed to be resolved with FFT in cm/s
+rolling_sweeps = 2
+# object detection sensitivity
+threshold = 0.03       # Ignore data below threshold in fft window
+max_speed = 5000.00        # Max speed to be resolved with FFT in cm/s
 wavelength = 0.49       # Wavelength of radar in cm
 
 
@@ -61,7 +62,7 @@ def main():
 
 def get_base_config():
     config = configs.IQServiceConfig()
-    config.range_interval = [0.1, 0.5]
+    config.range_interval = [0.1, 0.9]
     config.sweep_rate = int(np.ceil(max_speed * 4 / wavelength))
     config.gain = 0.7
     return config
@@ -220,6 +221,9 @@ class PGUpdater:
             vel = (data["fft_peak"][1] / data["fft_map"].shape[1] * 2 - 1) * self.max_velocity
             peak_fft_text = "Dist: {:.1f}cm, Speed/Angle: {:.1f}cm/s / {:.0f}".format(
                                 dist, data["velocity"], data["angle"])
+
+
+            print(peak_fft_text)
 
             half_pixel = self.max_velocity / np.floor(fft_sweep_len / 2) / 2
             self.obstacle_peak.setData([vel + half_pixel], [dist])
